@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 
 app = Flask(__name__)
 
-@app.route('/dados', methods=['POST'])
+@app.route('https://hugohugohugo-017a4b00f33c.herokuapp.com/dados', methods=['POST'])
 def verificar_login_instagram():
     data = request.json
     email = data.get('email')
