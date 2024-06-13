@@ -1,12 +1,4 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app) 
-
-
-
-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
@@ -37,9 +29,6 @@ def fazer_login_instagram(email, password):
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--no-sandbox")  # Adicione esta opção
 
-    # Configura o Chrome para usar o fornecido pelo Heroku
-    chrome_options.binary_location = '/app/.apt/usr/bin/google-chrome'
-
     browser = webdriver.Chrome(options=chrome_options)
 
     try:
@@ -62,4 +51,4 @@ def fazer_login_instagram(email, password):
         browser.quit()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
