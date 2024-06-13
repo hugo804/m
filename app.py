@@ -36,7 +36,7 @@ def fazer_login_instagram(email, password):
     try:
         browser.get('https://www.instagram.com/accounts/login/')
         
-        # Esperar até que o campo de email esteja presente
+        # Esperar até que o campo de email esteja presenhhhte
         email_input = WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="username"]'))
         )
