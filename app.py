@@ -27,7 +27,7 @@ def fazer_login_instagram(email, password):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--no-sandbox")  # Adicione esta opção
+    chrome_options.add_argument("--no-sandbox")  # Adicione esta ophção
 
     browser = webdriver.Chrome(options=chrome_options)
 
