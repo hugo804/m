@@ -25,15 +25,18 @@ def verificar_login_instagram():
 
 def fazer_login_instagram(email, password):
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Para rodar o Chrome em modo headless (sem interface gráfica)
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Para evitar erros de memória no Heroku
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")  # Adicione esta opção
 
-    # Utiliza o serviço do Google Chrome em modo headless
+    # Configura o Chrome para usar o fornecido pelo Heroku
+    chrome_options.binary_location = '/app/.apt/usr/bin/google-chrome'
+
     browser = webdriver.Chrome(options=chrome_options)
 
     try:
         browser.get('https://www.instagram.com/accounts/login/')
-
+        
         email_input = browser.find_element_by_css_selector('input[name="username"]')
         password_input = browser.find_element_by_css_selector('input[name="password"]')
         
