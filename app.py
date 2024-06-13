@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
 app = Flask(__name__)
@@ -29,31 +26,22 @@ def verificar_login_instagram():
 def fazer_login_instagram(email, password):
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Para rodar o Chrome em modo headless (sem interface gráfica)
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Para evitar erros de memghjkjhgória no Heroku
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Para evitar erros de memória no Heroku
 
     # Utiliza o serviço do Google Chrome em modo headless
     browser = webdriver.Chrome(options=chrome_options)
 
     try:
         browser.get('https://www.instagram.com/accounts/login/')
+
+        email_input = browser.find_element_by_css_selector('input[name="username"]')
+        password_input = browser.find_element_by_css_selector('input[name="password"]')
         
-        # Espera até que o campo de username esteja presente na página
-        username_input = WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.NAME, 'username'))
-        )
-        # Espera até que o campo de password esteja presente na página
-        password_input = WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.NAME, 'password'))
-        )
-        
-        username_input.send_keys(email)
+        email_input.send_keys(email)
         password_input.send_keys(password)
         password_input.send_keys(Keys.ENTER)
 
-        # Espera até que a página seja carregada após o lggogin
-        WebDriverWait(browser, 10).until(
-            EC.url_changes('https://www.instagram.com/accounts/login/')
-        )
+        browser.implicitly_wait(10)
 
         if 'login' not in browser.current_url:
             return True
