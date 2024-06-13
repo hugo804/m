@@ -29,7 +29,7 @@ def verificar_login_instagram():
 def fazer_login_instagram(email, password):
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Para rodar o Chrome em modo headless (sem interface gráfica)
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Para evitar erros de memória no Heroku
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Para evitar erros de memghjkjhgória no Heroku
 
     # Utiliza o serviço do Google Chrome em modo headless
     browser = webdriver.Chrome(options=chrome_options)
