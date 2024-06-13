@@ -2,9 +2,6 @@ from flask import Flask, request, jsonify
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 
 app = Flask(__name__)
 
@@ -30,29 +27,21 @@ def fazer_login_instagram(email, password):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--no-sandbox")  # Adicione esta opção
 
     browser = webdriver.Chrome(options=chrome_options)
 
     try:
         browser.get('https://www.instagram.com/accounts/login/')
         
-        # Esperar até que o campo de email esteja presenhhhte
-        email_input = WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="username"]'))
-        )
-        # Esperar até que o campo de senha esteja presente
-        password_input = WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, 'input[name="password"]'))
-        )
+        email_input = browser.find_element_by_css_selector('input[name="username"]')
+        password_input = browser.find_element_by_css_selector('input[name="password"]')
         
         email_input.send_keys(email)
         password_input.send_keys(password)
         password_input.send_keys(Keys.ENTER)
 
-        # Esperar até que a página seja carregada após o login
-        WebDriverWait(browser, 10).until(
-            EC.url_changes('https://www.instagram.com/accounts/login/')
-        )
+        browser.implicitly_wait(10)
 
         if 'login' not in browser.current_url:
             return True
@@ -62,4 +51,4 @@ def fazer_login_instagram(email, password):
         browser.quit()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
